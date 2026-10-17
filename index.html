@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Study Bestie AI</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      color: white;
+      background: linear-gradient(145deg, #10002b, #240046, #5a189a);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+      padding: 32px 22px;
+      border: 1px solid #ffffff40;
+      border-radius: 28px;
+      background: #ffffff12;
+      box-shadow: 0 12px 40px #00000035;
+    }
+
+    .planet {
+      font-size: 76px;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin: 10px 0;
+    }
+
+    .highlight {
+      color: #e0aaff;
+    }
+
+    p {
+      color: #eee0ff;
+      line-height: 1.6;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      margin-top: 14px;
+      border: none;
+      border-radius: 16px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      background: linear-gradient(90deg, #c77dff, #e0aaff);
+      color: #240046;
+    }
+
+    .secondary {
+      background: #ffffff18;
+      border: 1px solid #ffffff50;
+      color: white;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    select {
+      width: 100%;
+      padding: 13px;
+      margin: 8px 0;
+      border-radius: 12px;
+      border: none;
+      font-size: 15px;
+      background: white;
+      color: #240046;
+    }
+
+    .small {
+      font-size: 12px;
+      margin-top: 22px;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="card">
+
+    <section id="welcome">
+      <div class="planet">🌌</div>
+      <h1>Study <span class="highlight">Bestie AI</span></h1>
+      <p>Your learning universe awaits!</p>
+      <p>📚 Learn · 🎮 Play · 🧠 Grow</p>
+
+      <button onclick="showPath()">
+        LET'S BEGIN ✨
+      </button>
+
+      <p class="small">Your journey. Your universe. Your future.</p>
+    </section>
+
+    <section id="path" class="hidden">
+      <div class="planet">🚀</div>
+      <h1>Your Learning Path</h1>
+      <p>Let's personalise your adventure!</p>
+
+      <select id="classChoice">
+        <option value="">Choose your class</option>
+        <option>Class 1</option>
+        <option>Class 2</option>
+        <option>Class 3</option>
+        <option>Class 4</option>
+        <option>Class 5</option>
+        <option>Class 6</option>
+        <option>Class 7</option>
+        <option>Class 8</option>
+        <option>Class 9</option>
+        <option>Class 10</option>
+        <option>Class 11</option>
+        <option>Class 12</option>
+      </select>
+
+      <select id="boardChoice">
+        <option value="">Choose your board</option>
+        <option>CBSE</option>
+        <option>ICSE</option>
+        <option>RBSE</option>
+        <option>UP Board</option>
+        <option>Bihar Board</option>
+        <option>Other State Board</option>
+      </select>
+
+      <select id="languageChoice">
+        <option value="">Choose your language</option>
+        <option>Hindi</option>
+        <option>English</option>
+      </select>
+
+      <select id="goalChoice">
+        <option value="">Choose your goal</option>
+        <option>School Exams</option>
+        <option>JEE</option>
+        <option>NEET</option>
+        <option>CUET</option>
+        <option>NDA</option>
+        <option>Other</option>
+      </select>
+
+      <button onclick="enterUniverse()">
+        ENTER MY UNIVERSE 🌠
+      </button>
+
+      <button class="secondary" onclick="goBack()">
+        ← Go Back
+      </button>
+    </section>
+
+    <section id="universe" class="hidden">
+      <div class="planet">🪐</div>
+      <h1>Welcome, <span class="highlight">Future Genius!</span></h1>
+      <p id="studentInfo"></p>
+      <p>Your adventure starts here!</p>
+
+      <button onclick="startMission()">
+        START MY FIRST MISSION 🎯
+      </button>
+    </section>
+
+    <section id="mission" class="hidden">
+      <div class="planet">🧠</div>
+      <h1>BestieBrain Challenge</h1>
+      <p>Quick question: What is 5 + 3?</p>
+
+      <button onclick="answer(true)">A. 8</button>
+      <button class="secondary" onclick="answer(false)">B. 7</button>
+
+      <p id="result"></p>
+      <button class="secondary" onclick="restart()">BACK TO START</button>
+    </section>
+
+  </main>
+
+  <script>
+    function hideAll() {
+      document.getElementById("welcome").classList.add("hidden");
+      document.getElementById("path").classList.add("hidden");
+      document.getElementById("universe").classList.add("hidden");
+      document.getElementById("mission").classList.add("hidden");
+    }
+
+    function showPath() {
+      hideAll();
+      document.getElementById("path").classList.remove("hidden");
+    }
+
+    function goBack() {
+      hideAll();
+      document.getElementById("welcome").classList.remove("hidden");
+    }
+
+    function enterUniverse() {
+      const studentClass = document.getElementById("classChoice").value;
+      const board = document.getElementById("boardChoice").value;
+      const language = document.getElementById("languageChoice").value;
+      const goal = document.getElementById("goalChoice").value;
+
+      if (!studentClass || !board || !language || !goal) {
+        alert("Please choose all four options first! 💜");
+        return;
+      }
+
+      document.getElementById("studentInfo").textContent =
+        studentClass + " · " + board + " · " + language + " · " + goal;
+
+      hideAll();
+      document.getElementById("universe").classList.remove("hidden");
+    }
+
+    function startMission() {
+      hideAll();
+      document.getElementById("mission").classList.remove("hidden");
+    }
+
+    function answer(correct) {
+      document.getElementById("result").textContent = correct
+        ? "Correct! 🎉 You earned 10 demo XP!"
+        : "Not quite! 💜 Try again — 5 + 3 = 8.";
+    }
+
+    function restart() {
+      hideAll();
+      document.getElementById("welcome").classList.remove("hidden");
+      document.getElementById("result").textContent = "";
+    }
+  </script>
+</body>
+</html>
