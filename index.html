@@ -682,16 +682,26 @@ function renderSubjects() {
 
   subjects.forEach(subject => {
     const button = document.createElement("button");
-
     button.className = "subject-card";
-    button.setAttribute("data-theme", subject.theme || "");
+    button.setAttribute("data-theme", subject.theme || subject.name.toLowerCase());
 
-    button.innerHTML =
-      '<span class="subject-icon">' + subject.icon + '</span>' +
-      '<div class="subject-content">' +
-        '<div class="subject-name">' + subject.name + '</div>' +
-        '<div class="subject-desc">' + subject.desc + '</div>' +
-      '</div>';
+    const titles = {
+      Maths: "🔮 Math Mystery Dimension",
+      Physics: "🚀 Cosmic Discovery",
+      Chemistry: "💠 Elemental Universe",
+      Biology: "🌿 Nature Exploration",
+      English: "✨ StoryVerse",
+      Hindi: "🪷 Shabd Sansaar"
+    };
+
+    button.innerHTML = `
+      <span class="subject-icon">${subject.icon}</span>
+      <div class="subject-content">
+        <div class="subject-name">${titles[subject.name] || subject.name}</div>
+        <div class="subject-desc">${subject.desc}</div>
+        <div class="subject-explore">TAP TO EXPLORE ✦</div>
+      </div>
+    `;
 
     button.onclick = () => openLesson(subject.name);
     root.appendChild(button);
