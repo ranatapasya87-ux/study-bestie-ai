@@ -1,168 +1,757 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Study Bestie AI</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#10091f">
+<title>Study Bestie AI | Learning Universe</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: Arial, sans-serif;
-      color: white;
-      background: linear-gradient(145deg, #10002b, #240046, #5a189a);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-
-    .card {
-      width: 100%;
-      max-width: 420px;
-      text-align: center;
-      padding: 32px 22px;
-      border: 1px solid #ffffff40;
-      border-radius: 28px;
-      background: #ffffff12;
-      box-shadow: 0 12px 40px #00000035;
-    }
-
-    .planet {
-      font-size: 76px;
-      margin-bottom: 12px;
-    }
-
-    h1 {
-      font-size: 32px;
-      margin: 10px 0;
-    }
-
-    .highlight {
-      color: #e0aaff;
-    }
-
-    p {
-      color: #eee0ff;
-      line-height: 1.6;
-    }
-
-    button {
-      width: 100%;
-      padding: 15px;
-      margin-top: 14px;
-      border: none;
-      border-radius: 16px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      background: linear-gradient(90deg, #c77dff, #e0aaff);
-      color: #240046;
-    }
-
-    .secondary {
-      background: #ffffff18;
-      border: 1px solid #ffffff50;
-      color: white;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    select {
-      width: 100%;
-      padding: 13px;
-      margin: 8px 0;
-      border-radius: 12px;
-      border: none;
-      font-size: 15px;
-      background: white;
-      color: #240046;
-    }
-
-    .small {
-      font-size: 12px;
-      margin-top: 22px;
-    }
-  </style>
+<style>
+:root {
+  --bg:#0b0714;
+  --panel:#171026;
+  --purple:#a855f7;
+  --pink:#e879f9;
+  --silver:#e5e7eb;
+  --muted:#b7adc9;
+  --border:rgba(192,132,252,.25);
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  font-family:system-ui,Arial,sans-serif;
+  background:
+    radial-gradient(ellipse at top,#30104d 0%,transparent 55%),
+    var(--bg);
+  color:white;
+  min-height:100vh;
+}
+button,select,input { font:inherit; }
+button { cursor:pointer; }
+button:focus-visible,select:focus-visible,input:focus-visible {
+  outline:2px solid var(--pink);
+  outline-offset:3px;
+}
+header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  padding:16px 5%;
+  border-bottom:1px solid var(--border);
+  background:rgba(11,7,20,.85);
+  position:sticky;
+  top:0;
+  z-index:5;
+  backdrop-filter:blur(12px);
+}
+.logo { font-size:19px;font-weight:900; }
+.logo span { color:var(--pink); }
+.badge {
+  color:#f0abfc;
+  border:1px solid var(--border);
+  border-radius:30px;
+  padding:7px 12px;
+  font-size:12px;
+}
+main {
+  width:min(1050px,92%);
+  margin:auto;
+  padding:32px 0 60px;
+}
+.hero {
+  text-align:center;
+  padding:38px 10px 28px;
+}
+.orb {
+  width:110px;
+  height:110px;
+  border-radius:50%;
+  margin:0 auto 24px;
+  display:grid;
+  place-items:center;
+  font-size:48px;
+  background:radial-gradient(circle at 30% 25%,#f5d0fe,#a855f7 40%,#27103f 75%);
+  box-shadow:0 0 35px #a855f766,0 0 90px #9333ea33;
+  animation:float 4s ease-in-out infinite;
+}
+@keyframes float {
+  50% { transform:translateY(-8px); }
+}
+h1 {
+  font-size:clamp(32px,7vw,60px);
+  line-height:1.08;
+  margin:0 0 14px;
+  letter-spacing:-1.5px;
+  background:linear-gradient(100deg,#fff,#e9d5ff,#c084fc);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+h2 { margin-top:0; }
+p { color:var(--muted);line-height:1.7; }
+.section { margin:26px 0; }
+.panel {
+  background:linear-gradient(145deg,#1d1430,#110b1d);
+  border:1px solid var(--border);
+  border-radius:22px;
+  padding:22px;
+  box-shadow:0 12px 35px #0003;
+}
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(145px,1fr));
+  gap:14px;
+}
+.card {
+  background:#1b132b;
+  border:1px solid var(--border);
+  color:white;
+  padding:20px 14px;
+  min-height:105px;
+  border-radius:18px;
+  text-align:left;
+  transition:.2s;
+}
+.card:hover {
+  border-color:var(--pink);
+  transform:translateY(-3px);
+  background:#29163e;
+}
+.card.selected {
+  border:2px solid var(--pink);
+  background:#35194b;
+  box-shadow:0 0 18px #c084fc25;
+}
+.icon { display:block;font-size:28px;margin-bottom:10px; }
+.card strong { display:block;font-size:15px; }
+.card small { color:var(--muted);display:block;margin-top:5px; }
+.field { margin:15px 0; }
+label { display:block;margin-bottom:8px;font-weight:650; }
+input,select {
+  width:100%;
+  padding:13px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:#0f0a19;
+  color:white;
+}
+.btn {
+  border:0;
+  border-radius:13px;
+  padding:14px 20px;
+  font-weight:800;
+  color:white;
+  background:linear-gradient(110deg,#9333ea,#c026d3);
+  box-shadow:0 7px 22px #a855f733;
+}
+.btn.secondary {
+  background:#26183a;
+  border:1px solid var(--border);
+  box-shadow:none;
+}
+.btn:disabled { opacity:.5;cursor:not-allowed; }
+.actions { display:flex;gap:10px;flex-wrap:wrap;margin-top:18px; }
+.hidden { display:none!important; }
+.notice {
+  font-size:13px;
+  border-left:3px solid var(--purple);
+  padding:10px 14px;
+  background:#a855f711;
+  border-radius:5px;
+}
+.stat {
+  background:#1c1330;
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:17px;
+}
+.stat strong { display:block;font-size:25px;color:#e9d5ff; }
+.stat span { color:var(--muted);font-size:13px; }
+.progress {
+  height:8px;
+  background:#342447;
+  border-radius:20px;
+  overflow:hidden;
+  margin:12px 0;
+}
+.progress div {
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg,#9333ea,#e879f9);
+  transition:width .3s;
+}
+.quiz-option {
+  display:block;
+  width:100%;
+  text-align:left;
+  background:#211631;
+  color:white;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:13px;
+  margin:9px 0;
+}
+footer {
+  text-align:center;
+  color:#8f819f;
+  padding:24px;
+  border-top:1px solid var(--border);
+  font-size:12px;
+}
+@media(max-width:500px) {
+  header { padding:13px 4%; }
+  .logo { font-size:16px; }
+  main { width:92%;padding-top:20px; }
+  .panel { padding:17px; }
+  .hero { padding-top:25px; }
+}
+</style>
 </head>
 
 <body>
-  <main class="card">
 
-    <section id="welcome">
-      <div class="planet">🌌</div>
-      <h1>Study <span class="highlight">Bestie AI</span></h1>
-      <p>Your learning universe awaits!</p>
-      <p>📚 Learn · 🎮 Play · 🧠 Grow</p>
+<header>
+  <div class="logo">💜 Study Bestie <span>AI</span></div>
+  <div class="badge">✦ LEARNING UNIVERSE</div>
+</header>
 
-      <button onclick="showPath()">
-        LET'S BEGIN ✨
+<main>
+
+<!-- WELCOME -->
+<section id="welcome">
+  <div class="hero">
+    <div class="orb">🪐</div>
+    <div class="badge">YOUR PERSONAL LEARNING UNIVERSE</div>
+    <h1>WELCOME,<br>FUTURE GENIUS!</h1>
+    <p>Your Learning Universe Awaits…</p>
+    <p>यहाँ पढ़ाई सिर्फ पढ़ाई नहीं है —<br>
+    यह एक Adventure है! ✨</p>
+    <button class="btn" onclick="showPage('setup')">
+      LET'S BEGIN ✨
+    </button>
+  </div>
+</section>
+
+<!-- STUDENT SETUP -->
+<section id="setup" class="hidden">
+  <div class="hero">
+    <h1>Build Your Universe</h1>
+    <p>अपनी learning journey को अपने अनुसार चुनो।</p>
+  </div>
+
+  <div class="panel section">
+    <h2>🎓 Choose Your Class</h2>
+    <div id="classes" class="grid"></div>
+  </div>
+
+  <div class="panel section">
+    <h2>🏫 Choose Your Board</h2>
+    <div id="boards" class="grid"></div>
+  </div>
+
+  <div class="panel section">
+    <h2>🌐 Choose Your Language</h2>
+    <div id="languages" class="grid"></div>
+  </div>
+
+  <div class="panel section">
+    <h2>🚀 Choose Your Goal</h2>
+    <div id="goals" class="grid"></div>
+    <div class="actions">
+      <button class="btn" onclick="enterDashboard()">
+        ENTER MY UNIVERSE →
       </button>
-
-      <p class="small">Your journey. Your universe. Your future.</p>
-    </section>
-
-    <section id="path" class="hidden">
-      <div class="planet">🚀</div>
-      <h1>Your Learning Path</h1>
-      <p>Let's personalise your adventure!</p>
-
-      <select id="classChoice">
-        <option value="">Choose your class</option>
-        <option>Class 1</option>
-        <option>Class 2</option>
-        <option>Class 3</option>
-        <option>Class 4</option>
-        <option>Class 5</option>
-        <option>Class 6</option>
-        <option>Class 7</option>
-        <option>Class 8</option>
-        <option>Class 9</option>
-        <option>Class 10</option>
-        <option>Class 11</option>
-        <option>Class 12</option>
-      </select>
-
-      <select id="boardChoice">
-        <option value="">Choose your board</option>
-        <option>CBSE</option>
-        <option>ICSE</option>
-        <option>RBSE</option>
-        <option>UP Board</option>
-        <option>Bihar Board</option>
-        <option>Other State Board</option>
-      </select>
-
-      <select id="languageChoice">
-        <option value="">Choose your language</option>
-        <option>Hindi</option>
-        <option>English</option>
-      </select>
-
-      <select id="goalChoice">
-        <option value="">Choose your goal</option>
-        <option>School Exams</option>
-        <option>JEE</option>
-        <option>NEET</option>
-        <option>CUET</option>
-        <option>NDA</option>
-        <option>Other</option>
-      </select>
-
-      <button onclick="enterUniverse()">
-        ENTER MY UNIVERSE 🌠
+      <button class="btn secondary" onclick="showPage('welcome')">
+        Back
       </button>
+    </div>
+    <p id="setupError" role="status"></p>
+  </div>
+</section>
 
-      <button class="secondary" onclick="goBack()">
-        ← Go Back
+<!-- STUDENT DASHBOARD -->
+<section id="dashboard" class="hidden">
+  <div class="hero">
+    <div class="orb">🌌</div>
+    <h1>My Universe</h1>
+    <p id="studentSummary">Your adventure starts here.</p>
+  </div>
+
+  <div class="grid section">
+    <div class="stat">
+      <strong id="xp">0 XP</strong>
+      <span>Learning Points</span>
+    </div>
+    <div class="stat">
+      <strong id="level">Level 1</strong>
+      <span>Your Level</span>
+    </div>
+    <div class="stat">
+      <strong id="activities">0</strong>
+      <span>Activities Completed</span>
+    </div>
+  </div>
+
+  <div class="panel section">
+    <h2>✨ Your Progress</h2>
+    <div class="progress"><div id="progressBar"></div></div>
+    <p id="progressText">Start your first activity!</p>
+  </div>
+
+  <div class="panel section">
+    <h2>📚 Explore Your Learning Universe</h2>
+    <div id="subjects" class="grid"></div>
+  </div>
+
+  <div class="panel section">
+    <h2>📈 Trading Academy</h2>
+    <p>सीखो, practice करो और virtual market को समझो।</p>
+    <div class="grid">
+      <button class="card" onclick="openTrading('basics')">
+        <span class="icon">📘</span>
+        <strong>Trading Basics</strong>
+        <small>Market और risk को समझो</small>
       </button>
+      <button class="card" onclick="openTrading('candles')">
+        <span class="icon">🕯️</span>
+        <strong>Candlesticks</strong>
+        <small>Charts पढ़ना सीखो</small>
+      </button>
+      <button class="card" onclick="openTrading('paper')">
+        <span class="icon">🪙</span>
+        <strong>Paper Trading</strong>
+        <small>Virtual portfolio demo</small>
+      </button>
+    </div>
+  </div>
+
+  <div class="panel section">
+    <h2>🏆 Achievements</h2>
+    <p id="achievement">✨ Your first achievement is waiting!</p>
+  </div>
+
+  <div class="actions">
+    <button class="btn secondary" onclick="showPage('setup')">
+      Change Preferences
+    </button>
+    <button class="btn secondary" onclick="showPage('welcome')">
+      Home
+    </button>
+    <button class="btn secondary" onclick="showPage('owner')">
+      👑 Owner Panel
+    </button>
+  </div>
+</section>
+
+<!-- SUBJECT / QUIZ -->
+<section id="lesson" class="hidden">
+  <div class="panel">
+    <div class="badge">LEARNING CHALLENGE</div>
+    <h1 id="lessonTitle">Brain Challenge</h1>
+    <p id="lessonIntro"></p>
+    <div id="quizArea"></div>
+    <p id="quizFeedback" role="status" aria-live="polite"></p>
+    <div class="actions">
+      <button class="btn secondary" onclick="showPage('dashboard')">
+        ← Dashboard
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- TRADING ACADEMY -->
+<section id="trading" class="hidden">
+  <div class="panel">
+    <div class="badge">TRADING ACADEMY · EDUCATIONAL DEMO</div>
+    <h1 id="tradingTitle">Learn Trading</h1>
+    <p id="tradingText"></p>
+    <div id="tradingExtra"></div>
+    <div class="actions">
+      <button class="btn secondary" onclick="showPage('dashboard')">
+        ← Dashboard
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- OWNER PANEL -->
+<section id="owner" class="hidden">
+  <div class="hero">
+    <div class="orb">👑</div>
+    <h1>Owner Command Center</h1>
+    <p>Study Bestie AI · Management Preview</p>
+  </div>
+
+  <div class="notice">
+    यह केवल शुरुआती interface है। अभी इसमें वास्तविक admin
+    authentication या secure server permissions नहीं हैं।
+    इसे सार्वजनिक रूप से सुरक्षित Owner Dashboard न समझें।
+  </div>
+
+  <div class="grid section">
+    <div class="stat">
+      <strong>6</strong><span>Demo Subjects</span>
+    </div>
+    <div class="stat">
+      <strong>3</strong><span>Trading Modules</span>
+    </div>
+    <div class="stat">
+      <strong>Free</strong><span>Current Prototype</span>
+    </div>
+  </div>
+
+  <div class="panel section">
+    <h2>⚙️ App Management Preview</h2>
+    <p>इन controls से अभी केवल demo content बदलेगा।</p>
+
+    <div class="field">
+      <label for="announcement">Welcome Announcement</label>
+      <input id="announcement"
+        placeholder="जैसे: Welcome Future Genius!">
+    </div>
+
+    <button class="btn" onclick="saveAnnouncement()">
+      Save Announcement
+    </button>
+
+    <p id="announcementStatus" role="status"></p>
+  </div>
+
+  <div class="panel section">
+    <h2>🛠️ Future Owner Features</h2>
+    <div class="grid">
+      <div class="card"><span class="icon">👥</span>
+        <strong>Student Management</strong>
+        <small>Backend required</small></div>
+      <div class="card"><span class="icon">📝</span>
+        <strong>Exam Manager</strong>
+        <small>Content system required</small></div>
+      <div class="card"><span class="icon">🤖</span>
+        <strong>AI Control Center</strong>
+        <small>Secure API integration required</small></div>
+      <div class="card"><span class="icon">🏆</span>
+        <strong>Rewards Manager</strong>
+        <small>Persistent storage required</small></div>
+    </div>
+  </div>
+
+  <button class="btn secondary" onclick="showPage('dashboard')">
+    ← Student Dashboard
+  </button>
+</section>
+
+</main>
+
+<footer>
+  Study Bestie AI · Learn • Play • Grow ✦<br>
+  Educational prototype · No real-money trading
+</footer>
+
+<script>
+const state = {
+  className: "",
+  board: "",
+  language: "",
+  goal: "",
+  xp: 0,
+  activities: 0
+};
+
+const choices = {
+  classes: {
+    title: "Class",
+    items: Array.from({length:12}, (_,i)=>({
+      label: "Class " + (i+1),
+      icon: "🎓"
+    }))
+  },
+  boards: {
+    title: "Board",
+    items: [
+      {label:"CBSE",icon:"🏫"},
+      {label:"ICSE",icon:"📚"},
+      {label:"RBSE",icon:"🏛️"},
+      {label:"Other State Board",icon:"🌍"}
+    ]
+  },
+  languages: {
+    title: "Language",
+    items: [
+      {label:"English",icon:"🌐"},
+      {label:"हिन्दी",icon:"🇮🇳"}
+    ]
+  },
+  goals: {
+    title: "Goal",
+    items: [
+      {label:"School Exams",icon:"📝"},
+      {label:"JEE",icon:"⚛️"},
+      {label:"NEET",icon:"🧬"},
+      {label:"CUET",icon:"🎯"},
+      {label:"Trading Academy",icon:"📈"},
+      {label:"Explore",icon:"🚀"}
+    ]
+  }
+};
+
+function renderChoices(id, key) {
+  const root = document.getElementById(id);
+  root.innerHTML = "";
+
+  choices[key].items.forEach(item => {
+    const button = document.createElement("button");
+    button.className = "card";
+    button.innerHTML =
+      '<span class="icon">' + item.icon + '</span>' +
+      '<strong></strong>';
+    button.querySelector("strong").textContent = item.label;
+
+    button.onclick = () => {
+      state[key === "classes" ? "className" : key.slice(0,-1)] =
+        item.label;
+
+      root.querySelectorAll(".card").forEach(card =>
+        card.classList.remove("selected")
+      );
+      button.classList.add("selected");
+    };
+
+    root.appendChild(button);
+  });
+}
+
+renderChoices("classes","classes");
+renderChoices("boards","boards");
+renderChoices("languages","languages");
+renderChoices("goals","goals");
+
+function showPage(id) {
+  document.querySelectorAll("main > section").forEach(section =>
+    section.classList.add("hidden")
+  );
+  document.getElementById(id).classList.remove("hidden");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function enterDashboard() {
+  const error = document.getElementById("setupError");
+
+  if (!state.className || !state.board ||
+      !state.language || !state.goal) {
+    error.textContent =
+      "कृपया Class, Board, Language और Goal — चारों चुनें।";
+    return;
+  }
+
+  error.textContent = "";
+
+  document.getElementById("studentSummary").textContent =
+    state.className + " · " + state.board + " · " +
+    state.language + " · " + state.goal;
+
+  renderSubjects();
+  updateProgress();
+  showPage("dashboard");
+}
+
+const subjects = [
+  {name:"Maths",icon:"➗",desc:"Logic & problem solving"},
+  {name:"Physics",icon:"⚛️",desc:"Discover the universe"},
+  {name:"Chemistry",icon:"🧪",desc:"Explore matter"},
+  {name:"Biology",icon:"🧬",desc:"Discover living things"},
+  {name:"English",icon:"📖",desc:"Read, write and grow"},
+  {name:"Hindi",icon:"🪷",desc:"भाषा और साहित्य"}
+];
+
+function renderSubjects() {
+  const root = document.getElementById("subjects");
+  root.innerHTML = "";
+
+  subjects.forEach(subject => {
+    const button = document.createElement("button");
+    button.className = "card";
+    button.innerHTML =
+      '<span class="icon">' + subject.icon + '</span>' +
+      '<strong>' + subject.name + '</strong>' +
+      '<small>' + subject.desc + '</small>';
+
+    button.onclick = () => openLesson(subject.name);
+    root.appendChild(button);
+  });
+}
+
+function openLesson(name) {
+  document.getElementById("lessonTitle").textContent =
+    name + " Brain Challenge";
+
+  document.getElementById("lessonIntro").textContent =
+    "एक छोटा सवाल हल करो और XP कमाओ।";
+
+  document.getElementById("quizFeedback").textContent = "";
+
+  const questions = {
+    Maths: {
+      q:"What is 7 × 8?",
+      options:["54","56","64","48"],
+      answer:"56",
+      explain:"7 × 8 = 56."
+    },
+    Physics: {
+      q:"Which unit measures force?",
+      options:["Joule","Watt","Newton","Volt"],
+      answer:"Newton",
+      explain:"Force is measured in newtons."
+    },
+    Chemistry: {
+      q:"What is the chemical formula of water?",
+      options:["CO₂","H₂O","O₂","NaCl"],
+      answer:"H₂O",
+      explain:"A water molecule contains two hydrogen atoms and one oxygen atom."
+    },
+    Biology: {
+      q:"Which organelle is known for producing most cellular ATP?",
+      options:["Nucleus","Mitochondrion","Ribosome","Golgi apparatus"],
+      answer:"Mitochondrion",
+      explain:"Mitochondria produce most ATP in many eukaryotic cells."
+    },
+    English: {
+      q:"Choose the correct sentence.",
+      options:["She go to school.","She goes to school.","She going school.","She gone to school."],
+      answer:"She goes to school.",
+      explain:"With 'she' in the simple present, the verb is 'goes'."
+    },
+    Hindi: {
+      q:"'सूर्य' का एक सामान्य पर्यायवाची कौन-सा है?",
+      options:["चंद्रमा","रवि","पवन","जल"],
+      answer:"रवि",
+      explain:"'रवि' सूर्य का पर्यायवाची है।"
+    }
+  };
+
+  const item = questions[name];
+  const root = document.getElementById("quizArea");
+  root.innerHTML = "";
+
+  const question = document.createElement("h2");
+  question.textContent = item.q;
+  root.appendChild(question);
+
+  item.options.forEach(option => {
+    const button = document.createElement("button");
+    button.className = "quiz-option";
+    button.textContent = option;
+
+    button.onclick = () => {
+      root.querySelectorAll("button").forEach(b =>
+        b.disabled = true
+      );
+
+      const correct = option === item.answer;
+      document.getElementById("quizFeedback").textContent =
+        (correct ? "✨ सही जवाब! " : "💡 सही जवाब: " + item.answer + ". ") +
+        item.explain;
+
+      if (correct) addXP(10);
+    };
+
+    root.appendChild(button);
+  });
+
+  showPage("lesson");
+}
+
+function addXP(points) {
+  state.xp += points;
+  state.activities += 1;
+  updateProgress();
+
+  document.getElementById("achievement").textContent =
+    state.xp >= 50
+      ? "🏆 Star Learner — 50 XP reached!"
+      : "✨ Keep learning to unlock achievements!";
+}
+
+function updateProgress() {
+  document.getElementById("xp").textContent = state.xp + " XP";
+  document.getElementById("level").textContent =
+    "Level " + (Math.floor(state.xp/50)+1);
+  document.getElementById("activities").textContent =
+    state.activities;
+
+  const progress = state.xp % 50;
+  document.getElementById("progressBar").style.width =
+    progress + "%";
+
+  document.getElementById("progressText").textContent =
+    progress + "/50 XP to your next level";
+}
+
+const tradingLessons = {
+  basics: {
+    title:"Trading Basics 📘",
+    text:"Trading में लोग financial assets खरीदते और बेचते हैं। कीमतें ऊपर या नीचे जा सकती हैं। Profit guaranteed नहीं होता और नुकसान संभव है।",
+    extra:"पहला नियम: बाजार को समझो, जोखिम सीखो और जल्दबाज़ी में निर्णय मत लो।"
+  },
+  candles: {
+    title:"Candlestick Learning 🕯️",
+    text:"Candlestick एक तय समय के दौरान price movement दिखाती है। इसके body और wicks से Open, High, Low और Close की जानकारी मिल सकती है।",
+    extra:"अभ्यास: bullish candle में Close, Open से ऊपर होता है। केवल एक candle देखकर भविष्य की कीमत निश्चित नहीं की जा सकती।"
+  },
+  paper: {
+    title:"Paper Trading Simulator 🪙",
+    text:"यह शुरुआती educational demo है। यहाँ कोई वास्तविक market order नहीं भेजा जाता और कोई असली पैसा इस्तेमाल नहीं होता।",
+    extra:"Virtual portfolio का उद्देश्य सीखना है, कमाई का वादा करना नहीं।"
+  }
+};
+
+function openTrading(topic) {
+  const lesson = tradingLessons[topic];
+
+  document.getElementById("tradingTitle").textContent =
+    lesson.title;
+  document.getElementById("tradingText").textContent =
+    lesson.text;
+  document.getElementById("tradingExtra").textContent =
+    lesson.extra;
+
+  if (topic === "paper") {
+    const button = document.createElement("button");
+    button.className = "btn";
+    button.textContent = "Start Virtual Practice";
+
+    button.onclick = () => {
+      document.getElementById("tradingExtra").textContent =
+        "Practice complete! याद रखो: यह अभी केवल educational demo है, वास्तविक market simulator नहीं।";
+      addXP(5);
+    };
+
+    document.getElementById("tradingExtra").appendChild(
+      document.createElement("br")
+    );
+    document.getElementById("tradingExtra").appendChild(button);
+  }
+
+  showPage("trading");
+}
+
+function saveAnnouncement() {
+  const value = document.getElementById("announcement").value.trim();
+  const status = document.getElementById("announcementStatus");
+
+  if (!value) {
+    status.textContent = "पहले announcement लिखो।";
+    return;
+  }
+
+  status.textContent =
+    "Demo announcement: " + value +
+    " (यह अभी केवल इसी खुले page में दिखेगा।)";
+}
+
+</script>
+</body>
+</html>
     </section>
 
     <section id="universe" class="hidden">
