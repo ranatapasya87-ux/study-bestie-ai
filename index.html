@@ -710,7 +710,7 @@ button.setAttribute(
       <span class="subject-icon">${subject.icon}</span>
       <div class="subject-content">
 <div class="subject-name">${titles[subject.name] || subject.name}</div>
-<div class="subject-desc">(${subject.desc})</div>
+<div class="subject-desc">(${({Maths:"Mathematics",Physics:"Physics",Chemistry:"Chemistry",Biology:"Biology",English:"English",Hindi:"Hindi"})[subject.name] || subject.desc})</div>
         <div class="subject-explore">TAP TO EXPLORE ✦</div>
       </div>
     `;
