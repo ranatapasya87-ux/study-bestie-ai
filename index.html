@@ -683,7 +683,19 @@ function renderSubjects() {
   subjects.forEach(subject => {
     const button = document.createElement("button");
     button.className = "subject-card";
-    button.setAttribute("data-theme", subject.theme || subject.name.toLowerCase());
+    const themeMap = {
+  Maths: "math",
+  Physics: "physics",
+  Chemistry: "chemistry",
+  Biology: "biology",
+  English: "english",
+  Hindi: "hindi"
+};
+
+button.setAttribute(
+  "data-theme",
+  themeMap[subject.name] || "math"
+);
 
     const titles = {
       Maths: "🔮 Math Mystery Dimension",
